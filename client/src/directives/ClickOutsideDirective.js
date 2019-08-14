@@ -1,26 +1,27 @@
-import Vue from 'vue';
+let handleOutsideClick;
 
 export const ClickOutside = {
-  priority: 700,
   bind(el, binding, vnode) {
-    console.log('el:', el);
-    let self = this;
-    // console.log('hi');
-    // this.event = function(event) {
-    //   console.log('event:', event);
-    //   // console.log('emitting event');
-    //   self.vm.$emit(self.expression, event);
-    // };
-    // this.el.addEventListener('click', this.stopProp);
-    // document.body.addEventListener('click', this.event);
+    handleOutsideClick = e => {
+      e.stopPropagation();
+      const { handler, exclude } = binding.value;
+      let clickedOnExcludedEl = false;
+      exclude.forEach(refName => {
+        if (!clickedOnExcludedEl) {
+          const excludedEl = vnode.context.$refs[refName];
+          clickedOnExcludedEl = excludedEl.contains(e.target);
+        }
+      });
+      if (!el.contains(e.target) && !clickedOnExcludedEl) {
+        vnode.context[handler]();
+      }
+    };
+    document.addEventListener('click', handleOutsideClick);
+    document.addEventListener('touchstart', handleOutsideClick);
   },
 
   unbind() {
-    // console.log('unbind');
-    // this.el.removeEventListener('click', this.stopProp);
-    // document.body.removeEventListener('click', this.event);
-  },
-  stopProp(event) {
-    // event.stopPropagation();
+    document.removeEventListener('click', handleOutsideClick);
+    document.removeEventListener('touchstart', handleOutsideClick);
   }
 };
