@@ -29,6 +29,7 @@ export default {
   left: 0;
   width: 100%;
   background-color: #ebebeb;
+  z-index: 1;
 
   header {
     padding-left: 30px;

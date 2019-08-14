@@ -1,5 +1,7 @@
 <template>
-  <div class="container">EDIT</div>
+  <div class="container">
+    <i class="material-icons edit-button">edit</i>
+  </div>
 </template>
 
 <script>
@@ -21,6 +23,17 @@ export default {
   align-items: center;
   justify-content: center;
   color: white;
+  cursor: pointer;
+  transition: all 0.1s linear;
+
+  &:hover {
+    background-color: #66bbb3;
+    transition: all 0.1s linear;
+  }
+
+  .edit-button {
+    font-size: 40px;
+  }
 }
 </style>
 
