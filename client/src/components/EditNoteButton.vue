@@ -27,7 +27,7 @@ export default {
   transition: all 0.1s linear;
 
   &:hover {
-    background-color: #66bbb3;
+    background-color: #7fcfc7;
     transition: all 0.1s linear;
   }
 

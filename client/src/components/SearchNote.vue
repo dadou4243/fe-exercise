@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="overlay" @click="modal = false"></div>
+    <div class="overlay" @click="modal = false" v-if="modal"></div>
     <div class="wrapper">
       <i class="material-icons search-icon">search</i>
       <input
@@ -26,7 +26,6 @@
 
 <script>
 import store from "../store";
-import { ClickOutside } from "../directives/ClickOutsideDirective";
 
 export default {
   data: function() {
@@ -37,20 +36,11 @@ export default {
       modal: false
     };
   },
-  props: {},
-  directives: {
-    ClickOutside
-  },
   methods: {
     filterNotes() {
-      console.log("note:", this.note);
-      // if (this.note === "") {
-      //   this.filteredNotes = [];
-      // } else {
       this.filteredNotes = this.notes.filter(note => {
         return note.toLowerCase().startsWith(this.note.toLowerCase());
       });
-      // }
     },
     setNote(note) {
       this.modal = false;
