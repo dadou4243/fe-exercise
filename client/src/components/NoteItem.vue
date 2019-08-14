@@ -66,6 +66,10 @@ export default {
       font-size: 14px;
       top: 5px;
       position: relative;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
     }
   }
 }
