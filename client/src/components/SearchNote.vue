@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <div class="overlay" @click="modal = false"></div>
     <div class="wrapper">
       <i class="material-icons search-icon">search</i>
       <input
@@ -10,12 +11,12 @@
         v-model="note"
         placeholder="Search..."
       />
-      <div class="filtered-notes" v-if="filteredNotes && modal" v-click-outside="modal = false">
+      <div class="filtered-notes" v-if="filteredNotes && modal">
         <ul>
           <li
             v-for="(filteredNote, index) in filteredNotes"
             :key="index"
-            @click="setNote"
+            @click="setNote(filteredNote)"
           >{{ filteredNote }}</li>
         </ul>
       </div>
@@ -31,7 +32,7 @@ export default {
   data: function() {
     return {
       note: "",
-      notes: ["Ali", "Baba", "quarante", "voleurs"],
+      notes: ["Ali", "Aladin", "Alain", "Baba", "quarante", "voleurs"],
       filteredNotes: [],
       modal: false
     };
@@ -43,26 +44,22 @@ export default {
   methods: {
     filterNotes() {
       console.log("note:", this.note);
-      if (this.note === "") {
-        this.filteredNotes = [];
-      } else {
-        this.filteredNotes = this.notes.filter(note => {
-          if (note === "") {
-            return [];
-          }
-          return note.toLowerCase().startsWith(this.note.toLowerCase());
-        });
-      }
+      // if (this.note === "") {
+      //   this.filteredNotes = [];
+      // } else {
+      this.filteredNotes = this.notes.filter(note => {
+        return note.toLowerCase().startsWith(this.note.toLowerCase());
+      });
+      // }
     },
-    setNote() {
-      console.log("set note", this.note);
+    setNote(note) {
       this.modal = false;
+      this.note = note;
+      this.filterNotes();
     }
   },
-  events: {
-    clickOutside() {
-      console.log("click outside");
-    }
+  created() {
+    this.filteredNotes = this.notes;
   }
 };
 </script>
@@ -71,8 +68,20 @@ export default {
 <style lang="scss" scoped>
 .container {
   margin: 30px 0;
+
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 0;
+  }
+
   .wrapper {
     position: relative;
+    z-index: 10;
+    width: 200px;
 
     .search-icon {
       position: absolute;
@@ -88,18 +97,33 @@ export default {
       border-radius: 13px;
       height: 20px;
       padding: 5px 10px;
-      font-size: 13px;
+      font-size: 14px;
       min-width: 150px;
       padding-left: 40px;
     }
   }
   .filtered-notes {
+    width: 200px;
+    position: absolute;
+    border-radius: 4px;
+    background-color: #ffffff;
+    margin-top: 3px;
+    box-shadow: 0 0 8px 1px rgba(0, 0, 0, 0.2);
+
     ul {
       list-style: none;
 
       li {
-        color: black;
+        color: #585858;
         cursor: pointer;
+        padding: 5px 10px;
+        height: 25px;
+        border-bottom: 1px solid #e2e2e2;
+        font-size: 14px;
+
+        &:hover {
+          background-color: #27efb9;
+        }
       }
     }
   }

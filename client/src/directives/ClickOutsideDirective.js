@@ -2,6 +2,9 @@ let handleOutsideClick;
 
 export const ClickOutside = {
   bind(el, binding, vnode) {
+    console.log('vnode:', vnode);
+    console.log('binding:', binding);
+    console.log('el:', el);
     handleOutsideClick = e => {
       e.stopPropagation();
       const { handler, exclude } = binding.value;
