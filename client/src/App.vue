@@ -1,7 +1,6 @@
 <template>
   <div id="app">
-    <note-modal v-show="isModalVisible" @close="closeModal"></note-modal>
-    <button type="button" class="btn" @click="showModal">Open Modal!</button>
+    <note-modal v-show="showModal" @close="closeModal"></note-modal>
     <app-header></app-header>
     <div class="content">
       <search-note></search-note>
@@ -15,6 +14,7 @@ import NotesList from "./components/NotesList.vue";
 import AppHeader from "./components/AppHeader.vue";
 import SearchNote from "./components/SearchNote.vue";
 import NoteModal from "./components/NoteModal.vue";
+import { mapGetters } from "vuex";
 
 export default {
   name: "app",
@@ -30,12 +30,12 @@ export default {
     };
   },
   methods: {
-    showModal() {
-      this.isModalVisible = true;
-    },
     closeModal() {
       this.isModalVisible = false;
     }
+  },
+  computed: {
+    ...mapGetters(["showModal", "notes"])
   }
 };
 </script>

@@ -5,12 +5,12 @@
 </template>
 
 <script>
-import store from "../store";
-
 export default {
   props: {},
   methods: {
-    showModal() {}
+    showModal() {
+      this.$store.dispatch("showModal");
+    }
   }
 };
 </script>

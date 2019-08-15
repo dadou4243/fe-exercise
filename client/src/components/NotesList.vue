@@ -5,16 +5,14 @@
 </template>
 
 <script>
-import store from "../store";
 import NoteItem from "./NoteItem.vue";
-import axios from "axios";
-import NotesApi from "../services/api/Notes";
+import { mapGetters } from "vuex";
 
 export default {
   name: "notes-list",
   data() {
     return {
-      notes: []
+      test: []
     };
   },
   components: {
@@ -22,15 +20,13 @@ export default {
   },
   methods: {},
   computed: {
+    ...mapGetters(["notes"]),
     doneTodosCount() {
       return this.$store.getters.notes;
     }
   },
   created() {
-    NotesApi.getNotes().then(result => {
-      console.log("notes:", result.data);
-      this.notes = result.data;
-    });
+    this.$store.dispatch("getNotes");
   }
 };
 </script>
