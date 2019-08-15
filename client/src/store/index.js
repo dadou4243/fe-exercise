@@ -8,7 +8,8 @@ export default new Vuex.Store({
   state: {
     notes: [],
     showModal: false,
-    selectedNoteData: {}
+    selectedNoteData: {},
+    filteredNotes: []
   },
   mutations: {
     showModal(state) {
@@ -24,6 +25,9 @@ export default new Vuex.Store({
     setSelectedNoteData(state, payload) {
       console.log('payload:', payload);
       state.selectedNoteData = payload;
+    },
+    setFilteredNotes(state, payload) {
+      state.filteredNotes = payload;
     }
   },
   actions: {
@@ -37,6 +41,12 @@ export default new Vuex.Store({
       NotesApi.getNotes().then(result => {
         commit('getNotes', result.data);
       });
+    },
+    setFilteredNotes({ commit, state }, author) {
+      const filteredNotes = state.notes.filter(note => {
+        return note.author === author;
+      });
+      commit('setFilteredNotes', filteredNotes);
     },
     getSelectedNoteData({ commit }, noteID) {
       console.log('noteID:', noteID);
@@ -55,6 +65,14 @@ export default new Vuex.Store({
     },
     selectedNoteData: state => {
       return state.selectedNoteData;
+    },
+    filteredNotes: state => {
+      return state.filteredNotes;
+    },
+    authors: state => {
+      return state.notes.map(note => {
+        return note.author;
+      });
     }
   }
 });

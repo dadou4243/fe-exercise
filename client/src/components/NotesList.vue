@@ -17,7 +17,7 @@ export default {
   name: "notes-list",
   data() {
     return {
-      test: []
+      filteredNotes: []
     };
   },
   components: {

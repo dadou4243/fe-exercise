@@ -8,16 +8,16 @@
         autocomplete="off"
         @input="filterNotes"
         @focus="modal = true"
-        v-model="note"
+        v-model="author"
         placeholder="Search..."
       />
-      <div class="filtered-notes" v-if="filteredNotes && modal">
+      <div class="filtered-notes" v-if="filteredAuthors && modal">
         <ul>
           <li
-            v-for="(filteredNote, index) in filteredNotes"
+            v-for="(author, index) in filteredAuthors"
             :key="index"
-            @click="setNote(filteredNote)"
-          >{{ filteredNote }}</li>
+            @click="setNote(author)"
+          >{{ author }}</li>
         </ul>
       </div>
     </div>
@@ -28,26 +28,30 @@
 export default {
   data: function() {
     return {
-      note: "",
-      notes: ["Ali", "Aladin", "Alain", "Baba", "quarante", "voleurs"],
-      filteredNotes: [],
+      author: "",
+      filteredAuthors: [],
       modal: false
     };
   },
   methods: {
     filterNotes() {
-      this.filteredNotes = this.notes.filter(note => {
-        return note.toLowerCase().startsWith(this.note.toLowerCase());
+      this.filteredAuthors = this.authors.filter(author => {
+        return author.toLowerCase().startsWith(this.author.toLowerCase());
       });
     },
-    setNote(note) {
+    setNote(author) {
       this.modal = false;
-      this.note = note;
-      this.filterNotes();
+      this.author = author;
+      this.$store.dispatch("setFilteredNotes", this.author);
+    }
+  },
+  computed: {
+    authors() {
+      return this.$store.getters.authors;
     }
   },
   created() {
-    this.filteredNotes = this.notes;
+    this.filteredNotes = this.authors;
   }
 };
 </script>
