@@ -1,5 +1,7 @@
 <template>
   <div id="app">
+    <note-modal v-show="isModalVisible" @close="closeModal"></note-modal>
+    <button type="button" class="btn" @click="showModal">Open Modal!</button>
     <app-header></app-header>
     <div class="content">
       <search-note></search-note>
@@ -12,20 +14,35 @@
 import NotesList from "./components/NotesList.vue";
 import AppHeader from "./components/AppHeader.vue";
 import SearchNote from "./components/SearchNote.vue";
+import NoteModal from "./components/NoteModal.vue";
 
 export default {
   name: "app",
   components: {
     NotesList,
     AppHeader,
-    SearchNote
+    SearchNote,
+    NoteModal
+  },
+  data() {
+    return {
+      isModalVisible: false
+    };
+  },
+  methods: {
+    showModal() {
+      this.isModalVisible = true;
+    },
+    closeModal() {
+      this.isModalVisible = false;
+    }
   }
 };
 </script>
 
 <style lang="scss">
 #app {
-  width: 100vw;
+  width: 100%;
   padding-top: 100px;
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

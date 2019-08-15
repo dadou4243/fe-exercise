@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container" @click="showModal">
     <i class="material-icons edit-button">edit</i>
   </div>
 </template>
@@ -9,7 +9,9 @@ import store from "../store";
 
 export default {
   props: {},
-  methods: {}
+  methods: {
+    showModal() {}
+  }
 };
 </script>
 

@@ -63,7 +63,7 @@ export default {
     position: absolute;
     top: 0;
     left: 0;
-    width: 100vw;
+    width: 100%;
     height: 100vh;
     z-index: 0;
   }
@@ -93,7 +93,7 @@ export default {
     }
   }
   .filtered-notes {
-    width: 200px;
+    width: 220px;
     position: absolute;
     border-radius: 4px;
     background-color: #ffffff;
