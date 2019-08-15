@@ -10,6 +10,7 @@ export default {
   methods: {
     showModal() {
       this.$store.dispatch("showModal");
+      this.$emit("getNoteData");
     }
   }
 };

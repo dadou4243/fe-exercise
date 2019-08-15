@@ -1,6 +1,11 @@
 <template>
   <div class="list-container">
-    <note-item v-for="(note, index) in notes" :key="index" :note="note"></note-item>
+    <note-item
+      v-for="(note, index) in notes"
+      :key="index"
+      :note="note"
+      @getNoteData="getNoteData($event)"
+    ></note-item>
   </div>
 </template>
 
@@ -18,10 +23,13 @@ export default {
   components: {
     NoteItem
   },
-  methods: {},
+  methods: {
+    getNoteData(noteID) {
+      this.$store.dispatch("getSelectedNoteData", noteID);
+    }
+  },
   computed: {
-    ...mapGetters(["notes"]),
-    doneTodosCount() {
+    notes() {
       return this.$store.getters.notes;
     }
   },

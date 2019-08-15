@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <note-modal v-show="showModal" @close="closeModal"></note-modal>
+    <note-modal v-show="showModal" :noteData="selectedNoteData" @close="closeModal"></note-modal>
     <app-header></app-header>
     <div class="content">
       <search-note></search-note>
@@ -31,11 +31,11 @@ export default {
   },
   methods: {
     closeModal() {
-      this.isModalVisible = false;
+      this.$store.dispatch("closeModal");
     }
   },
   computed: {
-    ...mapGetters(["showModal", "notes"])
+    ...mapGetters(["showModal", "notes", "selectedNoteData"])
   }
 };
 </script>

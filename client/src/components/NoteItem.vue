@@ -10,7 +10,7 @@
         <div class="author-description">{{ note.body }}</div>
       </div>
     </div>
-    <edit-note-button></edit-note-button>
+    <edit-note-button @getNoteData="getNoteData"></edit-note-button>
   </div>
 </template>
 
@@ -25,7 +25,11 @@ export default {
   props: {
     note: Object
   },
-  methods: {}
+  methods: {
+    getNoteData() {
+      this.$emit("getNoteData", this.note.id);
+    }
+  }
 };
 </script>
 

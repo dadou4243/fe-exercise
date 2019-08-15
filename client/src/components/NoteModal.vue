@@ -1,19 +1,7 @@
-<script>
-export default {
-  name: "modal",
-
-  methods: {
-    close() {
-      this.$emit("close");
-    }
-  }
-};
-</script>
-
 <template>
   <transition name="modal-fade">
     <div class="modal-backdrop">
-      <div class="modal">
+      <div class="modal" v-show="noteData">
         <header class="modal-header">
           <slot name="header">
             This is the default tile!
@@ -21,7 +9,7 @@ export default {
           </slot>
         </header>
         <section class="modal-body">
-          <slot name="body">I'm the default body!</slot>
+          <slot name="body">{{ noteData.author }}</slot>
         </section>
         <footer class="modal-footer">
           <slot name="footer">
@@ -33,6 +21,21 @@ export default {
     </div>
   </transition>
 </template>
+
+<script>
+export default {
+  name: "modal",
+  props: {
+    noteData: Object
+  },
+  methods: {
+    close() {
+      this.$emit("close");
+    }
+  }
+};
+</script>
+
 
 <style>
 .modal-backdrop {
