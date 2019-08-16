@@ -5,11 +5,13 @@
         <div class="label">Author name:</div>
         <div class="author-name">{{ note.author }}</div>
       </div>
+
       <div class="note-description">
         <div class="label">Description:</div>
         <div class="author-description">{{ note.body }}</div>
       </div>
     </div>
+
     <edit-note-button @getNoteData="getNoteData"></edit-note-button>
   </div>
 </template>
@@ -23,10 +25,13 @@ export default {
     EditNoteButton
   },
   props: {
+    // note item data
     note: Object
   },
   methods: {
+    // On getNoteData event
     getNoteData() {
+      // Emit getNoteData event to the parent component (NotesList)
       this.$emit("getNoteData", this.note.id);
     }
   }

@@ -61,6 +61,7 @@ app.get('/notes', (req, res) => res.send(notes));
 
 app.get('/notes/:id', (req, res) => {
   const note = _.find(notes, n => n.id === req.params.id);
+  console.log('note.updatedAt:', note.updatedAt);
   res.send(note);
 });
 

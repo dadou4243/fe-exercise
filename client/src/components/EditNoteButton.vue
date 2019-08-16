@@ -8,8 +8,11 @@
 export default {
   props: {},
   methods: {
+    // On click edit button event
     showModal() {
+      // dispatch action to the store
       this.$store.dispatch("showModal");
+      // Emit event to the parent component
       this.$emit("getNoteData");
     }
   }

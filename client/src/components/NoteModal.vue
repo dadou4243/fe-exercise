@@ -1,21 +1,36 @@
 <template>
   <transition name="modal-fade">
     <div class="modal-backdrop">
-      <div class="modal" v-show="noteData">
+      <div class="modal" v-show="data">
         <header class="modal-header">
-          <slot name="header">
-            This is the default tile!
-            <button type="button" class="btn-close" @click="close">x</button>
-          </slot>
+          <div class="title">Edit note</div>
+
+          <button type="button" class="btn-close" @click="close">x</button>
         </header>
+
         <section class="modal-body">
-          <slot name="body">{{ noteData.author }}</slot>
+          <form class="edit-form">
+            <div class="form-field">
+              <label for="author">Author name</label>
+
+              <input type="text" name="author" id="author" v-model="data.author" disabled />
+            </div>
+
+            <div class="form-field">
+              <label for="description">Description</label>
+
+              <textarea name="description" id="description" v-model="data.body"></textarea>
+            </div>
+          </form>
         </section>
+
         <footer class="modal-footer">
-          <slot name="footer">
-            I'm the default footer!
-            <button type="button" class="btn-green" @click="close">Close me!</button>
-          </slot>
+          <div class="updated-date">Last updated {{ formattedUpdateDate }}</div>
+          <div class="buttons">
+            <button type="button" class="btn-grey" @click="close">Cancel</button>
+
+            <button type="button" class="btn-primary" @click="save">Save</button>
+          </div>
         </footer>
       </div>
     </div>
@@ -23,21 +38,33 @@
 </template>
 
 <script>
+import moment from "moment";
+
 export default {
   name: "modal",
   props: {
-    noteData: Object
+    data: Object
   },
   methods: {
     close() {
-      this.$emit("close");
+      this.$emit("close", this.data);
+      this.initialData = {};
+    },
+    save() {
+      this.$emit("save", this.data);
+      this.$emit("close", this.data);
+    }
+  },
+  computed: {
+    formattedUpdateDate() {
+      return moment(this.data.updatedAt).fromNow();
     }
   }
 };
 </script>
 
 
-<style>
+<style lang="scss">
 .modal-backdrop {
   position: fixed;
   top: 0;
@@ -57,45 +84,109 @@ export default {
   overflow-x: auto;
   display: flex;
   flex-direction: column;
+  width: 45vw;
+  max-width: 450px;
+  border-radius: 7px;
+  width: 55vw;
+  max-width: 500px;
 }
 
 .modal-header,
 .modal-footer {
-  padding: 15px;
   display: flex;
 }
 
 .modal-header {
   border-bottom: 1px solid #eeeeee;
-  color: #4aae9b;
+  color: #1bb38a;
+  font-weight: 700;
+  font-size: 22px;
+  padding: 12px 15px 6px 30px;
   justify-content: space-between;
-}
 
-.modal-footer {
-  border-top: 1px solid #eeeeee;
-  justify-content: flex-end;
+  .btn-close {
+    border: none;
+    font-size: 20px;
+    padding: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    color: #1bb38a;
+    background: transparent;
+  }
 }
 
 .modal-body {
   position: relative;
-  padding: 20px 10px;
+  padding: 20px 30px;
+
+  .edit-form {
+    .form-field {
+      label {
+        display: block;
+        font-size: 13px;
+        font-weight: 700;
+        margin-bottom: 3px;
+      }
+
+      input,
+      textarea {
+        border: 1px solid gainsboro;
+        border-radius: 4px;
+        font-size: 14px;
+      }
+
+      input {
+        padding: 5px 7px;
+        margin-bottom: 15px;
+        max-width: 90%;
+        width: 200px;
+      }
+
+      input:disabled {
+        color: #9a9a9a;
+      }
+
+      textarea {
+        width: 85%;
+        height: 80px;
+        padding: 8px 13px;
+        line-height: 1.3rem;
+        resize: none;
+      }
+    }
+  }
 }
 
-.btn-close {
-  border: none;
-  font-size: 20px;
-  padding: 20px;
-  cursor: pointer;
-  font-weight: bold;
-  color: #4aae9b;
-  background: transparent;
-}
+.modal-footer {
+  border-top: 1px solid #eeeeee;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 15px 20px;
 
-.btn-green {
-  color: white;
-  background: #4aae9b;
-  border: 1px solid #4aae9b;
-  border-radius: 2px;
+  .updated-date {
+    color: #696969;
+    font-size: 12px;
+  }
+
+  button {
+    border-radius: 4px;
+    padding: 10px 20px;
+    min-width: 70px;
+    margin: 0 5px;
+    border: none;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .btn-primary {
+    color: white;
+    background-color: #1bb38a;
+  }
+
+  .btn-grey {
+    background-color: #f5f5f5;
+  }
 }
 
 .modal-fade-enter,

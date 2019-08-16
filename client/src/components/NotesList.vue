@@ -1,7 +1,7 @@
 <template>
   <div class="list-container">
     <note-item
-      v-for="(note, index) in notes"
+      v-for="(note, index) in filteredNotes"
       :key="index"
       :note="note"
       @getNoteData="getNoteData($event)"
@@ -17,7 +17,7 @@ export default {
   name: "notes-list",
   data() {
     return {
-      filteredNotes: []
+      test: []
     };
   },
   components: {
@@ -29,12 +29,9 @@ export default {
     }
   },
   computed: {
-    notes() {
-      return this.$store.getters.notes;
+    filteredNotes() {
+      return this.$store.getters.filteredNotes;
     }
-  },
-  created() {
-    this.$store.dispatch("getNotes");
   }
 };
 </script>

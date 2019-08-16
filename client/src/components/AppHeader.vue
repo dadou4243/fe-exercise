@@ -7,18 +7,6 @@
   </div>
 </template>
 
-<script>
-import store from "../store";
-import NoteItem from "./NoteItem.vue";
-
-export default {
-  components: {
-    NoteItem
-  },
-  methods: {}
-};
-</script>
-
 <style lang="scss" scoped>
 .container {
   position: fixed;

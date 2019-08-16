@@ -1,16 +1,19 @@
 <template>
   <div class="container">
     <div class="overlay" @click="modal = false" v-if="modal"></div>
+
     <div class="wrapper">
       <i class="material-icons search-icon">search</i>
+
       <input
         type="text"
         autocomplete="off"
-        @input="filterNotes"
+        @input="filterAuthors"
         @focus="modal = true"
         v-model="author"
         placeholder="Search..."
       />
+
       <div class="filtered-notes" v-if="filteredAuthors && modal">
         <ul>
           <li
@@ -28,29 +31,40 @@
 export default {
   data: function() {
     return {
+      // value of the search text input
       author: "",
+      // list of autocomplete suggestions
       filteredAuthors: [],
+      // show/hide autocomplete modal
       modal: false
     };
   },
   methods: {
-    filterNotes() {
-      this.filteredAuthors = this.authors.filter(author => {
-        return author.toLowerCase().startsWith(this.author.toLowerCase());
-      });
+    // filter the autocomplete suggestions based on the value of the input
+    filterAuthors() {
+      if (this.author === "") {
+        this.filteredAuthors = [];
+      } else {
+        this.filteredAuthors = this.authors.filter(author => {
+          return author.toLowerCase().startsWith(this.author.toLowerCase());
+        });
+      }
+      this.$store.dispatch("setFilteredNotes", this.author);
     },
+    // when autocomplete item is clicked
     setNote(author) {
       this.modal = false;
       this.author = author;
-      this.$store.dispatch("setFilteredNotes", this.author);
     }
   },
   computed: {
+    // get the list of authors from the store
     authors() {
       return this.$store.getters.authors;
     }
   },
   created() {
+    // initialize the autocomplete suggestions list
     this.filteredNotes = this.authors;
   }
 };
@@ -95,7 +109,7 @@ export default {
     }
   }
   .filtered-notes {
-    width: 220px;
+    width: 200px;
     position: absolute;
     border-radius: 4px;
     background-color: #ffffff;

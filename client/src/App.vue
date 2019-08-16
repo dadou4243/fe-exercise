@@ -1,9 +1,18 @@
 <template>
   <div id="app">
-    <note-modal v-show="showModal" :noteData="selectedNoteData" @close="closeModal"></note-modal>
+    <note-modal
+      v-if="showModal"
+      :noteData="selectedNoteData"
+      :data="selectedNoteData"
+      @close="closeModal"
+      @save="saveNoteData"
+    ></note-modal>
+
     <app-header></app-header>
+
     <div class="content">
       <search-note></search-note>
+
       <notes-list></notes-list>
     </div>
   </div>
@@ -26,16 +35,27 @@ export default {
   },
   data() {
     return {
+      // show/hide note modal
       isModalVisible: false
     };
   },
   methods: {
+    // On closeModal event
     closeModal() {
       this.$store.dispatch("closeModal");
+    },
+    saveNoteData(noteData) {
+      console.log("noteData:", noteData);
+      this.$store.dispatch("saveNoteData", noteData);
     }
   },
   computed: {
+    // explode list of getters from the store and set as computed properties
     ...mapGetters(["showModal", "notes", "selectedNoteData"])
+  },
+  // Get the list of notes from the API
+  created() {
+    this.$store.dispatch("getNotes");
   }
 };
 </script>
